@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello Vue :)</h1>
+
+    <div id="app">
+
+        <div v-if="showBooks">
+            <p>I am the template</p>
+            <h2>{{ title }} - {{ author }} - {{age}}</h2>
+            <button v-on:click="age++">Increase age</button> <br><br>
+            <button v-on:click="age--">Decrease age</button><br><br>
+            <!-- can use @ instead of v-on -->
+            <button @click="changeTitle('American Revolution')">Change book title</button><br><br>
+
+        </div>
+        <button @click="toggleShowBooks()">
+            <span v-if="showBooks">Hide Books</span>
+            <span v-if="!showBooks">Show Books</span>
+        </button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
