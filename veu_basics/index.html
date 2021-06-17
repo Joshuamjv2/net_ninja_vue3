@@ -7,18 +7,84 @@
     <script src="https://unpkg.com/vue@3.0.2"></script>
     <title>Document</title>
 </head>
+
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+        /* padding: 0; */
+        background: #eee;
+        max-width: 1000px;
+        margin: 20px auto;
+    }
+
+    h1,h2{
+        padding-bottom: 2rem;
+    }
+
+    button{
+        padding: .8rem .8rem;
+        background: cadetblue;
+        border: none;
+    }
+
+    button:hover{
+        border: 1px solid black;
+    }
+    .books{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    .book + .book{
+        margin-left: 3rem;
+    }
+
+    .books .fav{
+        background: #FFD700;
+    }
+</style>
 <body>
-    <h1>Hello Vue :)</h1>
+    <h1>Welcome to my bookstore</h1>
 
     <div id="app">
-
+        <!-- This is it -->
         <div v-if="showBooks">
-            <p>I am the template</p>
-            <h2>{{ title }} - {{ author }} - {{age}}</h2>
-            <button v-on:click="age++">Increase age</button> <br><br>
-            <button v-on:click="age--">Decrease age</button><br><br>
+            <h2>Favorites</h2>
+            <div class="books">
+                <div v-for="book in favBooks" class="book">
+                    <img :src="book.image" :alt="book.title">
+                    <p>Ranking Number #{{book.ranking}} - ${{book.price}}</p>
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                </div>
+            </div>
+            <h2>All books</h2>
+            <div class="books">
+                <div v-for="book in books" :class="{fav:book.trending}" class="book">
+                    <img :src="book.image" :alt="book.title">
+                    <p>Ranking Number #{{book.ranking}} - ${{book.price}}</p>
+                    <!-- <p>I am the template</p> -->
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                    <!-- <p>{{book.year}} -->
+                        <!-- <span> -->
+                        <button @click="toggleFav(book)" style="width: 100%; margin-top: .5rem;">
+                            <span v-if="book.trending">**Favorite</span>
+                            <span v-else>Make Favorite?</span>
+                        </button>
+                </div>
+            </div>
+            <!-- <button v-on:click="age++">Increase age</button> <br><br>
+            <button v-on:click="age--">Decrease age</button><br><br> -->
             <!-- can use @ instead of v-on -->
-            <button @click="changeTitle('American Revolution')">Change book title</button><br><br>
+            <!-- <button @click="changeTitle('American Revolution')">Change book title</button><br><br> -->
 
         </div>
         <button @click="toggleShowBooks()">
@@ -26,6 +92,11 @@
             <span v-else>Show Books</span>
             <!-- <span v-if="!showBooks">Show Books</span> -->
         </button>
+        <!-- <br><br>
+        <div @mouseover="handleEvent($event, 5)" class="box">mouseover</div>
+        <div @mouseleave="handleEvent" class="box">mouseleave</div>
+        <div @dblclick="handleEvent" class="box">doubleclick</div>
+        <div @mousemove="handleMouseMove" class="box">Position X:{{ x }}  Y:{{ y }}</div> -->
     </div>
 
     <script src="app.js"></script>

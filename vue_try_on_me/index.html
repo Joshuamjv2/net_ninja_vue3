@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>This below, is a Vue Application</h1>
+
+    <div id="app">
+        <p>I am the Shopping Cart</p>
+        <button @click="toggleCart()">Start shopping</button> <br><br>
+
+        <div v-if="showCart">
+            <button @click="makeOrder('Wakiso', 25, 23000)">
+                <!-- <span v-if="showCart">hide order</span> -->
+                <span>See Cart</span>
+            </button>
+        </div><br><br>
+
+        <div v-if="placeOrder && showCart">
+            Your Order Details:
+            <ul>
+                <li>{{ location }}</li>
+                <li>{{ package_weight }}</li>
+                <li>{{ price }}</li>
+            </ul>
+            <button @click="totalCost">Place Order</button>
+            <p v-if="showTotal">This will cost you {{totalPrice}} with delivery fee of {{delivery_fee}} inclusive</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
