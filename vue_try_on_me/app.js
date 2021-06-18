@@ -1,65 +1,76 @@
 const app = Vue.createApp({
-    // template: '<h1>Testing my view app</h1>',
-    // data(){
-    //     return{
-    //         location: 'Kampala',
-    //         package_weight: 23,
-    //         price: none,
-    //         delivery_fee: none,
-    //         showCart: true,
-    //         placeOrder: false
-    //     }
-    // }
     data(){
         return{
-            location: '',
-            package_weight: 0,
-            price: 0,
-            delivery_fee: 0,
+            products: [
+                {
+                    product_name: 'Airforce 1',
+                    price: 1000,
+                    img: 'img/1.jpg',
+                    inCart: 0,
+                    productCost: 0,
+                    // added =
+                },
+                {
+                    product_name: 'Nike 2 Ultra Walk',
+                    price: 1599,
+                    img: 'img/2.jpg',
+                    inCart: 0,
+                    productCost: 0
+                },
+                {
+                    product_name: 'Air Jordans 2xp',
+                    price: 1900,
+                    img: 'img/3.jpg',
+                    inCart: 0,
+                    productCost: 0
+                }
+            ],
+            openShop: false,
             showCart: false,
-            placeOrder: false,
-            showTotal: false,
-            totalPrice: 0
+            ShowCheckOut: false
         }
     },
-    methods:{
-        makeOrder(location, package_weight, price){
-            this.location = location,
-            this.package_weight = package_weight,
-            this.price = price,
-            this.placeOrder = !this.placeOrder
-            // console.log()
-            // return location, package_weight, price
-            // this.showCart = !this.showCart
-        },
-        totalDeliveryCost(location, weight){
-            this.makeOrder(this.location, this.package_weight, this.price)
-            this.placeOrder = !this.placeOrder
-            if (this.location == 'Kampala'){
-                this.delivery_fee = 5000
-            } else {
-                this.delivery_fee = 10000
-            }
-            if (this.package_weight > 20){
-                this.delivery_fee += 1000
-            }
-            console.log(this.package_weight)
-            console.log(this.delivery_fee)
+
+    methods: {
+        toggleShop(e){
+            e.preventDefault()
+            this.openShop = !this.openShop
+            console.log(this.openShop)
         },
 
-        totalCost(price){
-            this.totalDeliveryCost(this.location,this.weight)
-            // this.makeOrder(this.location, this.package_weight, this.price)
-            this.showTotal = !this.showTotal
-            this.totalPrice = this.price + this.delivery_fee
-            console.log(this.totalPrice)
-            console.log(this.showTotal)
-        },
-
-        toggleCart(){
-            // this.placeOrder()
+        toggleCart(e){
+            e.preventDefault()
             this.showCart = !this.showCart
-            // this.totalDeliveryCost()
+        },
+
+        toggleAddToCart(product){
+            product.inCart = 1
+            product.productCost = product.inCart * product.price
+            // this.totalCost(product)
+        },
+
+        totalCost(product){
+            product.productCost = product.inCart * product.price
+        },
+
+        toggleRemoveFromCart(product){
+            product.inCart = 0;
+        },
+
+        increaseCart(product){
+            product.inCart++
+            this.totalCost(product)
+        },
+
+        reduceCart(product){
+            product.inCart--
+            this.totalCost(product)
+        }
+    },
+
+    computed: {
+        cartItems(){
+            return this.products.filter(product=>product.inCart>0)
         }
     }
 })

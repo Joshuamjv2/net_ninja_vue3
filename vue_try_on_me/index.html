@@ -4,32 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="main.css">
     <script src="https://unpkg.com/vue@3.0.2"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>This below, is a Vue Application</h1>
+    <h1>Welcome to my shop.</h1>
 
     <div id="app">
-        <p>I am the Shopping Cart</p>
-        <button @click="toggleCart()">Start shopping</button> <br><br>
+        <button @click="toggleShop">
+            <span v-if="openShop">Close Shop</span>
+            <span v-else>Open Shop</span>
+        </button>
 
-        <div v-if="showCart">
-            <button @click="makeOrder('Wakiso', 25, 23000)">
-                <!-- <span v-if="showCart">hide order</span> -->
-                <span>See Cart</span>
-            </button>
-        </div><br><br>
+        <div v-if="openShop">
+            <div v-for="product in products" class="products">
+                <div class="product">
+                    <img :src="product.img" :alt="product.product_name">
+                    <p class="product-name">{{ product.product_name }}</p>
+                    <p class="product-name">$ {{ product.price }}</p>
+                    <button @click="toggleAddToCart(product)" class="buy">Add to Cart</button>
+                </div>
+            </div>
 
-        <div v-if="placeOrder && showCart">
-            Your Order Details:
-            <ul>
-                <li>{{ location }}</li>
-                <li>{{ package_weight }}</li>
-                <li>{{ price }}</li>
-            </ul>
-            <button @click="totalCost">Place Order</button>
-            <p v-if="showTotal">This will cost you {{totalPrice}} with delivery fee of {{delivery_fee}} inclusive</p>
+            <div class="cart">
+                <h2 class="cart-title">My Cart</h2>
+                <div v-for="product in cartItems" class="cart-products">
+                    <div class="cart-product">
+                        <img :src="product.img" :alt="product.product_name">
+                        <p class="product-name">{{ product.product_name }}</p>
+                        <p><span class="product-mark">Unit Cost</span>: ${{ product.price }}</p>
+                        <p><span class="product-mark">Qty</span>: {{ product.inCart }}
+                            <span>
+                                <i @click="increaseCart(product)" class="fa fa-plus-circle" aria-hidden="true"
+                                ></i>
+                                <span v-show="product.inCart > 1">
+                                    <i @click="reduceCart(product)" class="fa fa-minus-circle" aria-hidden="true" style="margin-left: .5rem;"></i>
+                                </span>
+                            </span>
+                        </p>
+                        <p><span class="product-mark">Total Cost</span>: ${{ product.productCost }}</p>
+                        <button @click="toggleRemoveFromCart(product)" class="buy">Remove from cart</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
